@@ -132,6 +132,7 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 		count = 0;
 	}
 	int counter = 0;
+	int idword = 0;
 	string a = markov_model[startPos].words;
 	string res = "";
 	if (a != "%START%") {
@@ -144,10 +145,21 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 	int rint;
 	if (count == 0) {
 		while (a != "%END%") {
+			idword = searchforID(markov_model, a);
 			if (res != "") {
-				res += ' ';
+				if (idword == -1) {
+					res += '\n';
+				}
+				else {
+					res += ' ';
+				}
 			}
-			a = markov_model[searchforID(markov_model, a)].return_random_words();
+			if (idword != -1) {
+				a = markov_model[idword].return_random_words();
+			}
+			else {
+				a = markov_model[0].return_random_words();
+			}
 			if (a != "%END%") {
 				res += a;
 				counter++;
@@ -159,10 +171,21 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 		return res;
 	}
 	while (counter != count) {
+		idword = searchforID(markov_model, a);
 		if (res != "") {
-			res += ' ';
+			if (idword == -1) {
+				res += '\n';
+			}
+			else {
+				res += ' ';
+			}
 		}
-		a = markov_model[searchforID(markov_model, a)].return_random_words();
+		if (idword != -1) {
+			a = markov_model[idword].return_random_words();
+		}
+		else {
+			a = markov_model[0].return_random_words();
+		}
 		if (a == "%END%") {
 			rint = rand() % (markov_model.size()-1) + 1;
 			a = markov_model[rint].words;
