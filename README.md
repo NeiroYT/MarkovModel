@@ -1,9 +1,9 @@
 # MarkovModel
-##Main idea:  
+## Main idea:  
 name.txt -> name.dat (markov's chain)  
 
 Compile and use from command prompt (Windows):  
-```\\...>markov.exe (name) (function) (startPos) (length of sentence)```  
+``\\...>markov.exe (name) (function) (startPos) (length of sentence)``  
   
 *name*: name of your txt file (input)  
   
@@ -14,7 +14,7 @@ Compile and use from command prompt (Windows):
   
 *length of sentence*: amount of words (type 0 to go until the %END% word)  
   
-#name.txt (your input) structure:  
+# name.txt (your input) structure:  
 %START%  
 Your  
 Text  
@@ -27,7 +27,7 @@ Here
   
 do your input using parsing  
   
-#name.dat structure:  
+# name.dat structure:  
 0xDEADBEEF  
 (amount of words)  
 (word1_word)  
