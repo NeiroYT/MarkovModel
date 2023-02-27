@@ -3,7 +3,7 @@
 name.txt -> name.dat (markov's chain)  
 
 Compile and use from command prompt (Windows):  
-``\\...>markov.exe (name) (function) (startPos) (length of sentence)``  
+``\...>markov.exe (name) (function) (startPos) (length of sentence)``  
   
 *name*: name of your txt file (input)  
   
