@@ -1,0 +1,17 @@
+%START%
+One
+fish
+two
+fish
+red
+fish
+blue
+fish
+%END%
+%START%
+я
+люблю
+альфа
+центавру
+fish
+%END%
