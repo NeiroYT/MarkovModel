@@ -57,7 +57,7 @@ int savemarkov(vector<Dictionary> &markov_model, string file_name) {
 
 int loadmarkov(vector<Dictionary> &markov_model, string file_name) {
 	int tmplen = 0;
-	char data[256];
+	char data[1024];
 	int i = 0;
 	int counter;
 	string data2;
@@ -77,7 +77,7 @@ int loadmarkov(vector<Dictionary> &markov_model, string file_name) {
 		counter = atoi(data);
 		i = counter;
 		while (i > 0) {
-			f.getline(data, 256);
+			f.getline(data, 1024);
 			data2 = data;
 			markov_model[tmplen].update(data2);
 			f.getline(data, 50);
@@ -87,7 +87,7 @@ int loadmarkov(vector<Dictionary> &markov_model, string file_name) {
 		markov_model[tmplen].allfreqs -= counter;
 		f.getline(data, 50);
 		markov_model[tmplen].allfreqs += atoi(data);
-		f.getline(data, 256);
+		f.getline(data, 1024);
 		data2 = data;
 		markov_model[tmplen].words = data2;
 		tmplen++;

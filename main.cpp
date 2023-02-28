@@ -3,6 +3,7 @@
 int searchforID(vector<Dictionary> &markov_model, string words);
 void load_in_markov(vector<Dictionary> &markov_model, vector<string> &converted_input);
 string doSentence(vector<Dictionary> &markov_model, int startPos = 0, int count = 0);
+string extractinput(string filename);
 
 const int MAX_WORDS_LIMIT = 2000; // to prevent 1-word infinite loop
 
@@ -36,9 +37,9 @@ int main(int argc, char **argv) {
 	f.open(fname2);
 	if (f.good()) {
 		string a;
-		char data[256];
+		char data[1024];
 		while (!f.eof()) {
-			f.getline(data, 256);
+			f.getline(data, 1024);
 			a = data;
 			if (a == "") {
 				continue;
@@ -63,6 +64,13 @@ int main(int argc, char **argv) {
 		startpos = atoi(argv[3]);
 		length = atoi(argv[4]);
 		string a;
+		string stwordfname;
+		string sugword;
+		if (argc > 5) {
+			stwordfname = argv[5];
+			sugword = extractinput(stwordfname);
+			startpos = searchforID(markov_model, sugword);
+		}
 		if (startpos == -1) {
 			startpos = rand() % (markov_model.size());
 		}
@@ -194,4 +202,16 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 		counter++;
 	}
 	return res;
+}
+
+string extractinput(string filename) {
+	ifstream file;
+	string result;
+	char data[50];
+	filename += ".txt";
+	file.open(filename, ios::in | ios::binary);
+	file.getline(data, 50);
+	result = data;
+	file.close();
+	return result;
 }
