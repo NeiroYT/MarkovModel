@@ -30,6 +30,7 @@ public:
 	int allfreqs = 0;
 	friend int savemarkov(vector<Dictionary> &markov_model, string file_name);
 	friend int loadmarkov(vector<Dictionary> &markov_model, string file_name);
+	int searchWordid(string inword);
 	int update(string next);
 	Dictionary(string iwords) {
 		words = iwords;
@@ -41,6 +42,12 @@ public:
 			}
 		}
 		return 0;
+	}
+	int freqfromid(int id) {
+		if (id < 0 || id > wf.size() - 1) {
+			return -1;
+		}
+		return wf[id].get_freq();
 	}
 	string return_random_words();
 private:

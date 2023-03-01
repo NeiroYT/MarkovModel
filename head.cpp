@@ -9,6 +9,15 @@ Word_Freq Word_Freq::operator--(int n) {
 	return *this;
 }
 
+int Dictionary::searchWordid(string inword) {
+	for (size_t i = 0; i < wf.size(); i++) {
+		if (wf[i].words == inword) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 int Dictionary::update(string next) {
 	for (size_t i = 0; i < wf.size(); i++) {
 		if (wf[i].words == next) {
