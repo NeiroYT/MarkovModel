@@ -43,6 +43,9 @@ public:
 		}
 		return 0;
 	}
+	int countnode() {
+		return wf.size();
+	}
 	int freqfromid(int id) {
 		if (id < 0 || id > wf.size() - 1) {
 			return -1;

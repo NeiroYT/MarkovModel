@@ -142,6 +142,7 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 	int counter = 0;
 	int counter2 = 0;
 	int idword = 0;
+	float chance1 = 0.0f;
 	int nextend = -1;
 	float nextchance = 0.0f;
 	string a = markov_model[startPos].words;
@@ -181,7 +182,7 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 		}
 		return res;
 	}
-	while (counter != count) {
+	while (a != "%END%" && counter < 2*count) {
 		idword = searchforID(markov_model, a);
 		if (res != "") {
 			if (idword == -1) {
@@ -192,12 +193,21 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 			}
 		}
 		if (idword != -1) {
-			a = markov_model[idword].return_random_words();
+			do {
+				int neid = -1;
+				neid = markov_model[idword].searchWordid("%END%");
+				if (markov_model[idword].allfreqs > 0 && markov_model[idword].freqfromid(neid) != -1) {
+					chance1 = markov_model[idword].freqfromid(neid) / (float)markov_model[idword].allfreqs;
+				}
+				a = markov_model[idword].return_random_words();
+			} while (counter < count && a == "%END%" && chance1 < 0.98f && markov_model[idword].countnode() > 2);
 		}
 		else {
 			a = markov_model[0].return_random_words();
 		}
-		if (a == "%END%") {
+		if (a == "%END%" && counter < count) {
+			//rint = rand() % (markov_model.size() - 1) + 1;
+			//a = markov_model[rint].words;
 			do {
 				rint = rand() % (markov_model.size()-1) + 1;
 				a = markov_model[rint].words;
@@ -206,10 +216,13 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 				if (nextchance != -1 && markov_model[rint].allfreqs != 0) {
 					nextchance = nextchance / (float)markov_model[rint].allfreqs;
 				}
-			} while (counter2 < 4 && nextend != -1 && nextchance > 0.7f);
+			} while (nextend != -1 && nextchance > 0.7f);
+			//res += '\n';
 			counter2 = 0;
 		}
-		res += a;
+		if (a != "%END%") {
+			res += a;
+		}
 		counter++; counter2++;
 	}
 	return res;
