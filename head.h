@@ -8,9 +8,10 @@ using namespace std;
 
 class Word_Freq {
 public:
-	string words = "NULL";
-	Word_Freq(string iwords) {
+	string words;
+	Word_Freq(string iwords = "NULL") {
 		words = iwords;
+		freq = 1;
 	};
 	Word_Freq operator++(int n);
 	Word_Freq operator--(int n);
@@ -21,19 +22,19 @@ public:
 		freq = ifreq;
 	}
 private:
-	int freq = 1;
+	int freq;
 };
 
 class Dictionary {
 public:
-	string words = "NULL";
-	int allfreqs = 0;
+	string words;
 	friend int savemarkov(vector<Dictionary> &markov_model, string file_name);
 	friend int loadmarkov(vector<Dictionary> &markov_model, string file_name);
 	int searchWordid(string inword);
 	int update(string next);
-	Dictionary(string iwords) {
+	Dictionary(string iwords = "NULL") {
 		words = iwords;
+		allfreqs = 0;
 	}
 	int count(string word) {
 		for (size_t i = 0; i < wf.size(); i++) {
@@ -52,9 +53,13 @@ public:
 		}
 		return wf[id].get_freq();
 	}
+	int getfreqs() {
+		return allfreqs;
+	}
 	string return_random_words();
 private:
 	vector<Word_Freq> wf;
+	int allfreqs;
 };
 
 int savemarkov(vector<Dictionary> &markov_model, string file_name);

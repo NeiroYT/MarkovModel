@@ -196,8 +196,8 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 			do {
 				int neid = -1;
 				neid = markov_model[idword].searchWordid("%END%");
-				if (markov_model[idword].allfreqs > 0 && markov_model[idword].freqfromid(neid) != -1) {
-					chance1 = markov_model[idword].freqfromid(neid) / (float)markov_model[idword].allfreqs;
+				if (markov_model[idword].getfreqs() > 0 && markov_model[idword].freqfromid(neid) != -1) {
+					chance1 = markov_model[idword].freqfromid(neid) / (float)markov_model[idword].getfreqs();
 				}
 				a = markov_model[idword].return_random_words();
 			} while (counter < count && a == "%END%" && chance1 < 0.98f && markov_model[idword].countnode() > 2);
@@ -209,12 +209,13 @@ string doSentence(vector<Dictionary> &markov_model, int startPos, int count) {
 			//rint = rand() % (markov_model.size() - 1) + 1;
 			//a = markov_model[rint].words;
 			do {
+				//srand(time(NULL));
 				rint = rand() % (markov_model.size()-1) + 1;
 				a = markov_model[rint].words;
 				nextend = markov_model[rint].searchWordid("%END%");
 				nextchance = (float)markov_model[rint].freqfromid(nextend);
-				if (nextchance != -1 && markov_model[rint].allfreqs != 0) {
-					nextchance = nextchance / (float)markov_model[rint].allfreqs;
+				if (nextchance != -1 && markov_model[rint].getfreqs() != 0) {
+					nextchance = nextchance / (float)markov_model[rint].getfreqs();
 				}
 			} while (nextend != -1 && nextchance > 0.7f);
 			//res += '\n';

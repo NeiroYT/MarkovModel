@@ -33,6 +33,7 @@ int Dictionary::update(string next) {
 }
 
 string Dictionary::return_random_words() {
+	//srand(time(NULL));
 	int rchoice = (rand() % (allfreqs))+1;
 	int temp_count = 0;
 	for (size_t i = 0; i < wf.size(); i++) {
