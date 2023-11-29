@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 	// 
 
 	// main moves
-	if (argc > 4 && atoi(argv[2]) == 1 && markov_model.size() > 0) {
+	if (argc > 4 && atoi(argv[2]) >= 1 && markov_model.size() > 0) {
 		int startpos;
 		int length;
 		startpos = atoi(argv[3]);
@@ -68,7 +68,17 @@ int main(int argc, char **argv) {
 		if (startpos == -1) {
 			startpos = rand() % (markov_model.size());
 		}
-		res = markov_model.doSentence(startpos, length);
+		switch (atoi(argv[2])) {
+		case 1:
+			res = markov_model.doSentence(startpos, length);
+			break;
+		case 2:
+			res = markov_model.doSentence2(startpos, length);
+			break;
+		default:
+			res = markov_model.doSentence(startpos, length);
+			break;
+		}
 		ofstream output;
 		output.open("output.txt");
 		if (output.good()) {

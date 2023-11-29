@@ -77,6 +77,7 @@ public:
 	int searchforID(string word) const;
 	void load_in(vector<string> &converted_input);
 	string doSentence(int startPos = 0, int count = 0) const;
+	string doSentence2(int startPos = 0, int count = 0) const;
 private:
 	vector<Dictionary> markov_model;
 };

@@ -185,6 +185,7 @@ string MarkovModel::doSentence(int startPos, int count) const {
 	int rint;
 	float chance1 = 0.0f;
 	float nextchance = 0.0f;
+	// force random part
 	while (cur_word != "%END%" && counter < 2 * count) {
 		idword = searchforID(cur_word);
 		if (res != "") {
@@ -209,10 +210,7 @@ string MarkovModel::doSentence(int startPos, int count) const {
 			cur_word = markov_model[0].return_random_words();
 		}
 		if (cur_word == "%END%" && counter < count) {
-			//rint = rand() % (markov_model.size() - 1) + 1;
-			//a = markov_model[rint].words;
 			do {
-				//srand(time(NULL));
 				rint = rand() % (markov_model.size() - 1) + 1;
 				cur_word = markov_model[rint].get_word();
 				nextend = markov_model[rint].searchWordid("%END%");
@@ -228,6 +226,79 @@ string MarkovModel::doSentence(int startPos, int count) const {
 			res += cur_word;
 		}
 		counter++; counter2++;
+	}
+	// end of force randoming
+	return res;
+}
+
+string MarkovModel::doSentence2(int startPos, int count) const {
+	if (startPos > markov_model.size() - 1) {
+		startPos = 0;
+	}
+	if (count < 0) {
+		count = 0;
+	}
+	int counter = 0; // words count
+	string cur_word = markov_model[startPos].get_word();
+	string res = "";
+	if (cur_word != "%START%") {
+		res = cur_word;
+		counter++;
+	}
+	if (count == 1) {
+		return res;
+	}
+	int idword = 0;
+	if (count == 0) {
+		while (cur_word != "%END%") {
+			idword = searchforID(cur_word);
+			if (res != "") {
+				if (idword == -1) {
+					res += '\n';
+				}
+				else {
+					res += ' ';
+				}
+			}
+			if (idword != -1) {
+				cur_word = markov_model[idword].return_random_words();
+			}
+			else {
+				cur_word = markov_model[0].return_random_words();
+			}
+			if (cur_word != "%END%") {
+				res += cur_word;
+				counter++;
+				if (counter == MAX_WORDS_LIMIT) {
+					cur_word = "%END%";
+				}
+			}
+		}
+		return res;
+	}
+	int rint;
+	while (counter < 2 * count) {
+		idword = searchforID(cur_word);
+		if (res != "") {
+			if (idword == -1) {
+				res += '\n';
+			}
+			else {
+				res += ' ';
+			}
+		}
+		if (idword != -1) {
+			cur_word = markov_model[idword].return_random_words();
+		}
+		else {
+			cur_word = markov_model[0].return_random_words();
+		}
+		if (cur_word == "%END%") {
+			rint = rand() % (markov_model.size() - 1) + 1;
+			cur_word = markov_model[rint].get_word();
+		}
+		res += cur_word;
+		counter++;
 	}
 	return res;
 }
