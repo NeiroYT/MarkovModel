@@ -8,6 +8,7 @@ Compile and use from command prompt (Windows):
 *name*: name of your txt file (input)  
   
 *functions*: 1 = doSentence (make sentence using startPos and length) -> output.txt (program saves just sentence)  
+2 = doSentence2 (no forcing random words) -> output.txt (program saves just sentence)  
 ...  
   
 *startPos*: first word in sentence (type -1 to use random word)  
